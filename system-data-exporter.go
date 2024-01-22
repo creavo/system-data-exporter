@@ -37,7 +37,10 @@ func main() {
 	}
 
 	if *urlEndpoint == "-" {
-		printToStdout(sysData)
+		if err := printToStdout(sysData); err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
 	} else {
 		url, err := url.ParseRequestURI(*urlEndpoint)
 		if err != nil {
@@ -121,6 +124,12 @@ func sendToURL(sysData SystemData, url string) error {
 	return nil
 }
 
-func printToStdout(sysData SystemData) {
-	fmt.Fprintf(os.Stdout, fmt.Sprintf("%v\n", sysData))
+func printToStdout(sysData SystemData) error {
+	jsonBytes, err := json.Marshal(sysData)
+	if err != nil {
+		return err
+	}
+
+	fmt.Fprintf(os.Stdout, fmt.Sprintf("%v\n", string(jsonBytes)))
+	return nil
 }
