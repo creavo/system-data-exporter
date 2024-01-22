@@ -30,6 +30,11 @@ jobs:
     - name: run app
       run: chmod 0777 ./system-data-exporter && ./system-data-exporter
 
+    - name: release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: ./system-data-exporter
+
   build_windows:
     runs-on: windows-latest
     steps:
@@ -48,3 +53,8 @@ jobs:
 
     - name: run app
       run: .\system-data-exporter.exe
+    
+    - name: release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: .\system-data-exporter.exe
