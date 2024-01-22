@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -13,9 +14,15 @@ import (
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/host"
+	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/process"
 )
+
+type DeviceDiskUsageInfo struct {
+	DeviceName string          `json:"device_name"`
+	DiskUsage  *disk.UsageStat `json:"disk_usage"`
+}
 
 type SystemData struct {
 	VirtualMemoryInfo *mem.VirtualMemoryStat `json:"virtual_memory_info"`
@@ -24,6 +31,9 @@ type SystemData struct {
 	HostInfo          *host.InfoStat         `json:"host_info"`
 	CpuInfo           []cpu.InfoStat         `json:"cpu_info"`
 	Processesinfo     []*process.Process     `json:"process_info"`
+	DiskUsageInfo     []DeviceDiskUsageInfo  `json:"disk_usage_info"`
+	CPULoadAvgInfo       *load.AvgStat          `json:"cpu_load_averge_info"`
+	NetworkInterfaces []net.Interface        `json:"network_interfaces_info"`
 }
 
 func main() {
@@ -53,6 +63,7 @@ func main() {
 			os.Exit(1)
 		}
 	}
+
 }
 
 func initializeSystemData() (SystemData, error) {
@@ -71,7 +82,7 @@ func initializeSystemData() (SystemData, error) {
 		return SystemData{}, err
 	}
 
-	disk, err := disk.Partitions(false)
+	diskInfo, err := disk.Partitions(false)
 	if err != nil {
 		return SystemData{}, err
 	}
@@ -86,13 +97,42 @@ func initializeSystemData() (SystemData, error) {
 		return SystemData{}, err
 	}
 
+	diskUsageInfo := []DeviceDiskUsageInfo{}
+
+	for _, device := range diskInfo {
+		diskUsage, err := disk.Usage(device.Device)
+		if err != nil {
+			return SystemData{}, err
+		}
+
+		deviceDiskUsageInfo := DeviceDiskUsageInfo{
+			DeviceName: device.Device,
+			DiskUsage:  diskUsage,
+		}
+
+		diskUsageInfo = append(diskUsageInfo, deviceDiskUsageInfo)
+	}
+
+	loadAvg, err := load.Avg()
+	if err != nil {
+		return SystemData{}, err
+	}
+
+	netInterfaces, err := net.Interfaces()
+	if err != nil {
+		return SystemData{}, err
+	}
+
 	sysData := SystemData{
 		VirtualMemoryInfo: v,
-		DiskInfo:          disk,
+		DiskInfo:          diskInfo,
 		UptimeInfo:        uptime,
 		HostInfo:          host,
 		CpuInfo:           cpu,
 		Processesinfo:     processes,
+		DiskUsageInfo:     diskUsageInfo,
+		CPULoadAvgInfo:       loadAvg,
+		NetworkInterfaces: netInterfaces,
 	}
 
 	return sysData, nil
