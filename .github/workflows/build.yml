@@ -60,7 +60,7 @@ jobs:
       run: .\system-data-exporter.exe
     
     - name: get short sha
-      run: echo "SHORT_SHA=$("${{ github.sha }}".SubString(0, 8))" >> $env:GITHUB_ENV
+      run: echo "SHORT_SHA=$("${{ github.sha }}".SubString(0, 7))" >> $env:GITHUB_ENV
     
     - name: release
       uses: svenstaro/upload-release-action@v2
