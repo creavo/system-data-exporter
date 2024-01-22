@@ -60,11 +60,10 @@ jobs:
       run: .\system-data-exporter.exe
     
     - name: get short sha
-      id: vars
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      run: echo "SHORT_SHA=$("${{ github.sha }}".SubString(0, 8))" >> $env:GITHUB_ENV
     
     - name: release
       uses: svenstaro/upload-release-action@v2
       with:
         file: .\system-data-exporter.exe
-        tag: ${{ steps.vars.outputs.sha_short }}
+        tag: ${{ env.SHORT_SHA }}
