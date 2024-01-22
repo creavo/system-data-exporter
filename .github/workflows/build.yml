@@ -30,10 +30,15 @@ jobs:
     - name: run app
       run: chmod 0777 ./system-data-exporter && ./system-data-exporter
 
+    - name: get short sha
+      id: vars
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
     - name: release
       uses: svenstaro/upload-release-action@v2
       with:
         file: ./system-data-exporter
+        tag: ${{ steps.vars.outputs.sha_short }}
 
   build_windows:
     runs-on: windows-latest
@@ -54,7 +59,12 @@ jobs:
     - name: run app
       run: .\system-data-exporter.exe
     
+    - name: get short sha
+      id: vars
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+    
     - name: release
       uses: svenstaro/upload-release-action@v2
       with:
         file: .\system-data-exporter.exe
+        tag: ${{ steps.vars.outputs.sha_short }}
