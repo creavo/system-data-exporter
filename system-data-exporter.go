@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -16,6 +15,7 @@ import (
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/mem"
+	"github.com/shirou/gopsutil/v3/net"
 	"github.com/shirou/gopsutil/v3/process"
 )
 
@@ -25,15 +25,15 @@ type DeviceDiskUsageInfo struct {
 }
 
 type SystemData struct {
-	VirtualMemoryInfo *mem.VirtualMemoryStat `json:"virtual_memory_info"`
-	DiskInfo          []disk.PartitionStat   `json:"disk_info"`
-	UptimeInfo        uint64                 `json:"uptime_info"`
-	HostInfo          *host.InfoStat         `json:"host_info"`
-	CpuInfo           []cpu.InfoStat         `json:"cpu_info"`
-	Processesinfo     []*process.Process     `json:"process_info"`
-	DiskUsageInfo     []DeviceDiskUsageInfo  `json:"disk_usage_info"`
-	CPULoadAvgInfo       *load.AvgStat          `json:"cpu_load_averge_info"`
-	NetworkInterfaces []net.Interface        `json:"network_interfaces_info"`
+	VirtualMemoryInfo *mem.VirtualMemoryStat  `json:"virtual_memory_info"`
+	DiskInfo          []disk.PartitionStat    `json:"disk_info"`
+	UptimeInfo        uint64                  `json:"uptime_info"`
+	HostInfo          *host.InfoStat          `json:"host_info"`
+	CpuInfo           []cpu.InfoStat          `json:"cpu_info"`
+	Processesinfo     []*process.Process      `json:"process_info"`
+	DiskUsageInfo     []DeviceDiskUsageInfo   `json:"disk_usage_info"`
+	CPULoadAvgInfo    *load.AvgStat           `json:"cpu_load_averge_info"`
+	NetworkInterfaces net.InterfaceStatList `json:"network_interfaces_info"`
 }
 
 func main() {
@@ -131,7 +131,7 @@ func initializeSystemData() (SystemData, error) {
 		CpuInfo:           cpu,
 		Processesinfo:     processes,
 		DiskUsageInfo:     diskUsageInfo,
-		CPULoadAvgInfo:       loadAvg,
+		CPULoadAvgInfo:    loadAvg,
 		NetworkInterfaces: netInterfaces,
 	}
 
