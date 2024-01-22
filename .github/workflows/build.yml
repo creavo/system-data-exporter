@@ -27,6 +27,9 @@ jobs:
     - name: show files
       run: ls -la
 
+    - name: run app
+      run: chmod 0777 ./system-data-exporter && ./system-data-exporter
+
   build_windows:
     runs-on: windows-latest
     steps:
@@ -39,3 +42,9 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+
+    - name: show files
+      run: dir
+
+    - name: run app
+      run: system-data-exporter.exe
