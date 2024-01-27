@@ -32,22 +32,22 @@ jobs:
       run: env GOOS=linux GOARCH=arm64 go build -o system-data-exporter_linux_arm64
 
     - name: Build win-amd64
-      run: env GOOS=windows GOARCH=amd64 go build -o system-data-exporter_win_amd64
+      run: env GOOS=windows GOARCH=amd64 go build -o system-data-exporter_win_amd64.exe
 
-    - name: release
+    - name: release linux-amd64
       uses: svenstaro/upload-release-action@v2
       with:
         file: ./system-data-exporter_linux_amd64
         tag: ${{ steps.vars.outputs.sha_short }}
 
-    - name: release
+    - name: release linux-arm64
       uses: svenstaro/upload-release-action@v2
       with:
         file: ./system-data-exporter_linux_arm64
         tag: ${{ steps.vars.outputs.sha_short }}
 
-    - name: release
+    - name: release win-amd64
       uses: svenstaro/upload-release-action@v2
       with:
-        file: ./system-data-exporter_win_amd64
+        file: ./system-data-exporter_win_amd64.exe
         tag: ${{ steps.vars.outputs.sha_short }}
