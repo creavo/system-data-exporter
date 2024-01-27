@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  build_linux:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -21,49 +21,33 @@ jobs:
       with:
         go-version: '1.21'
 
-    - name: Build
-      run: go build -v ./...
-
-    - name: show files
-      run: ls -la
-
-    - name: run app
-      run: chmod 0777 ./system-data-exporter && ./system-data-exporter
-
     - name: get short sha
       id: vars
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+    - name: Build linux-amd64
+      run: env GOOS=linux GOARCH=amd64 go build -o system-data-exporter_linux_amd64
+
+    - name: Build linux-arm64
+      run: env GOOS=linux GOARCH=arm64 go build -o system-data-exporter_linux_arm64
+
+    - name: Build windows-amd64
+      run: env GOOS=win GOARCH=amd64 go build -o system-data-exporter_win_amd64
+
     - name: release
       uses: svenstaro/upload-release-action@v2
       with:
-        file: ./system-data-exporter
+        file: ./system-data-exporter_linux_amd64
         tag: ${{ steps.vars.outputs.sha_short }}
 
-  build_windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21'
-
-    - name: Build
-      run: go build -v ./...
-
-    - name: show files
-      run: dir
-
-    - name: run app
-      run: .\system-data-exporter.exe
-    
-    - name: get short sha
-      run: echo "SHORT_SHA=$("${{ github.sha }}".SubString(0, 7))" >> $env:GITHUB_ENV
-    
     - name: release
       uses: svenstaro/upload-release-action@v2
       with:
-        file: .\system-data-exporter.exe
-        tag: ${{ env.SHORT_SHA }}
+        file: ./system-data-exporter_linux_arm64
+        tag: ${{ steps.vars.outputs.sha_short }}
+
+    - name: release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: ./system-data-exporter_win_amd64
+        tag: ${{ steps.vars.outputs.sha_short }}
