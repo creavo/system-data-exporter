@@ -29,7 +29,6 @@ type SystemData struct {
 	GoArch            string                 `json:"go_arch"`
 	VirtualMemoryInfo *mem.VirtualMemoryStat `json:"virtual_memory_info"`
 	DiskInfo          []disk.PartitionStat   `json:"disk_info"`
-	UptimeInfo        uint64                 `json:"uptime_info"`
 	HostInfo          *host.InfoStat         `json:"host_info"`
 	CpuInfo           []cpu.InfoStat         `json:"cpu_info"`
 	DiskUsageInfo     []DeviceDiskUsageInfo  `json:"disk_usage_info"`
@@ -69,11 +68,6 @@ func main() {
 
 func initializeSystemData() (SystemData, error) {
 	v, err := mem.VirtualMemory()
-	if err != nil {
-		return SystemData{}, err
-	}
-
-	uptime, err := host.Uptime()
 	if err != nil {
 		return SystemData{}, err
 	}
@@ -126,7 +120,6 @@ func initializeSystemData() (SystemData, error) {
 		GoArch:            runtime.GOARCH,
 		VirtualMemoryInfo: v,
 		DiskInfo:          diskInfo,
-		UptimeInfo:        uptime,
 		HostInfo:          host,
 		CpuInfo:           cpu,
 		DiskUsageInfo:     diskUsageInfo,
