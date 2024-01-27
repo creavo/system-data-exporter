@@ -31,8 +31,8 @@ jobs:
     - name: Build linux-arm64
       run: env GOOS=linux GOARCH=arm64 go build -o system-data-exporter_linux_arm64
 
-    - name: Build windows-amd64
-      run: env GOOS=win GOARCH=amd64 go build -o system-data-exporter_win_amd64
+    - name: Build win-amd64
+      run: env GOOS=windows GOARCH=amd64 go build -o system-data-exporter_win_amd64
 
     - name: release
       uses: svenstaro/upload-release-action@v2
