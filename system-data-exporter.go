@@ -17,7 +17,6 @@ import (
 	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/net"
-	"github.com/shirou/gopsutil/v3/process"
 )
 
 type DeviceDiskUsageInfo struct {
@@ -33,7 +32,6 @@ type SystemData struct {
 	UptimeInfo        uint64                 `json:"uptime_info"`
 	HostInfo          *host.InfoStat         `json:"host_info"`
 	CpuInfo           []cpu.InfoStat         `json:"cpu_info"`
-	Processesinfo     []*process.Process     `json:"process_info"`
 	DiskUsageInfo     []DeviceDiskUsageInfo  `json:"disk_usage_info"`
 	CPULoadAvgInfo    *load.AvgStat          `json:"cpu_load_averge_info"`
 	NetworkInterfaces net.InterfaceStatList  `json:"network_interfaces_info"`
@@ -90,16 +88,6 @@ func initializeSystemData() (SystemData, error) {
 		return SystemData{}, err
 	}
 
-	cpu, err := cpu.Info()
-	if err != nil {
-		return SystemData{}, err
-	}
-
-	processes, err := process.Processes()
-	if err != nil {
-		return SystemData{}, err
-	}
-
 	diskUsageInfo := []DeviceDiskUsageInfo{}
 
 	for _, device := range diskInfo {
@@ -116,6 +104,11 @@ func initializeSystemData() (SystemData, error) {
 
 			diskUsageInfo = append(diskUsageInfo, deviceDiskUsageInfo)
 		}
+	}
+
+	cpu, err := cpu.Info()
+	if err != nil {
+		return SystemData{}, err
 	}
 
 	loadAvg, err := load.Avg()
@@ -136,7 +129,6 @@ func initializeSystemData() (SystemData, error) {
 		UptimeInfo:        uptime,
 		HostInfo:          host,
 		CpuInfo:           cpu,
-		Processesinfo:     processes,
 		DiskUsageInfo:     diskUsageInfo,
 		CPULoadAvgInfo:    loadAvg,
 		NetworkInterfaces: netInterfaces,
