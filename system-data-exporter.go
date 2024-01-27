@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"runtime"
 
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
@@ -25,15 +26,17 @@ type DeviceDiskUsageInfo struct {
 }
 
 type SystemData struct {
-	VirtualMemoryInfo *mem.VirtualMemoryStat  `json:"virtual_memory_info"`
-	DiskInfo          []disk.PartitionStat    `json:"disk_info"`
-	UptimeInfo        uint64                  `json:"uptime_info"`
-	HostInfo          *host.InfoStat          `json:"host_info"`
-	CpuInfo           []cpu.InfoStat          `json:"cpu_info"`
-	Processesinfo     []*process.Process      `json:"process_info"`
-	DiskUsageInfo     []DeviceDiskUsageInfo   `json:"disk_usage_info"`
-	CPULoadAvgInfo    *load.AvgStat           `json:"cpu_load_averge_info"`
-	NetworkInterfaces net.InterfaceStatList `json:"network_interfaces_info"`
+	GoOs              string                 `json:"go_os"`
+	GoArch            string                 `json:"go_arch"`
+	VirtualMemoryInfo *mem.VirtualMemoryStat `json:"virtual_memory_info"`
+	DiskInfo          []disk.PartitionStat   `json:"disk_info"`
+	UptimeInfo        uint64                 `json:"uptime_info"`
+	HostInfo          *host.InfoStat         `json:"host_info"`
+	CpuInfo           []cpu.InfoStat         `json:"cpu_info"`
+	Processesinfo     []*process.Process     `json:"process_info"`
+	DiskUsageInfo     []DeviceDiskUsageInfo  `json:"disk_usage_info"`
+	CPULoadAvgInfo    *load.AvgStat          `json:"cpu_load_averge_info"`
+	NetworkInterfaces net.InterfaceStatList  `json:"network_interfaces_info"`
 }
 
 func main() {
@@ -100,17 +103,19 @@ func initializeSystemData() (SystemData, error) {
 	diskUsageInfo := []DeviceDiskUsageInfo{}
 
 	for _, device := range diskInfo {
-		diskUsage, err := disk.Usage(device.Device)
-		if err != nil {
-			return SystemData{}, err
-		}
+		if _, err := os.Stat(device.Device); err == nil {
+			diskUsage, err := disk.Usage(device.Device)
+			if err != nil {
+				return SystemData{}, err
+			}
 
-		deviceDiskUsageInfo := DeviceDiskUsageInfo{
-			DeviceName: device.Device,
-			DiskUsage:  diskUsage,
-		}
+			deviceDiskUsageInfo := DeviceDiskUsageInfo{
+				DeviceName: device.Device,
+				DiskUsage:  diskUsage,
+			}
 
-		diskUsageInfo = append(diskUsageInfo, deviceDiskUsageInfo)
+			diskUsageInfo = append(diskUsageInfo, deviceDiskUsageInfo)
+		}
 	}
 
 	loadAvg, err := load.Avg()
@@ -124,6 +129,8 @@ func initializeSystemData() (SystemData, error) {
 	}
 
 	sysData := SystemData{
+		GoOs:              runtime.GOOS,
+		GoArch:            runtime.GOARCH,
 		VirtualMemoryInfo: v,
 		DiskInfo:          diskInfo,
 		UptimeInfo:        uptime,
