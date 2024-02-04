@@ -29,6 +29,7 @@ type DeviceDiskUsageInfo struct {
 type SystemData struct {
 	GoOs              string                 `json:"go_os"`
 	GoArch            string                 `json:"go_arch"`
+	CpuPercent        float64                `json:"cpu_percent"`
 	VirtualMemoryInfo *mem.VirtualMemoryStat `json:"virtual_memory_info"`
 	DiskInfo          []disk.PartitionStat   `json:"disk_info"`
 	HostInfo          *host.InfoStat         `json:"host_info"`
@@ -69,6 +70,7 @@ func main() {
 }
 
 func initializeSystemData() (SystemData, error) {
+
 	v, err := mem.VirtualMemory()
 	if err != nil {
 		return SystemData{}, err
@@ -103,6 +105,12 @@ func initializeSystemData() (SystemData, error) {
 		}
 	}
 
+	// calculates cpu-usage within 5 seconds
+	cpuPercent, err := cpu.Percent(5000000000, false)
+	if err != nil {
+		return SystemData{}, err
+	}
+
 	cpu, err := cpu.Info()
 	if err != nil {
 		return SystemData{}, err
@@ -121,6 +129,7 @@ func initializeSystemData() (SystemData, error) {
 	sysData := SystemData{
 		GoOs:              runtime.GOOS,
 		GoArch:            runtime.GOARCH,
+		CpuPercent:        cpuPercent[0],
 		VirtualMemoryInfo: v,
 		DiskInfo:          diskInfo,
 		HostInfo:          host,
