@@ -10,7 +10,7 @@ It features:
 * memory (size, usage)
 * network (interfaces with addresses)
 
-See [example_linux_amd64](https://github.com/creavo/system-data-exporter/blob/main/example_linux_amd64.json) as an example for the output.
+See [example_linux_amd64.json](https://github.com/creavo/system-data-exporter/blob/main/example_linux_amd64.json) as an example for the output.
 
 ### Usage
 
