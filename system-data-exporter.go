@@ -22,6 +22,7 @@ import (
 
 type DeviceDiskUsageInfo struct {
 	DeviceName string          `json:"device_name"`
+	Mountpoint string          `json:"mountpoint"`
 	DiskUsage  *disk.UsageStat `json:"disk_usage"`
 }
 
@@ -86,14 +87,15 @@ func initializeSystemData() (SystemData, error) {
 	diskUsageInfo := []DeviceDiskUsageInfo{}
 
 	for _, device := range diskInfo {
-		if _, err := os.Stat(device.Device); err == nil {
-			diskUsage, err := disk.Usage(device.Device)
+		if _, err := os.Stat(device.Mountpoint); err == nil {
+			diskUsage, err := disk.Usage(device.Mountpoint)
 			if err != nil {
 				return SystemData{}, err
 			}
 
 			deviceDiskUsageInfo := DeviceDiskUsageInfo{
 				DeviceName: device.Device,
+				Mountpoint: device.Mountpoint,
 				DiskUsage:  diskUsage,
 			}
 
