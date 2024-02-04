@@ -1,38 +1,41 @@
 {
+    "git_commit_hash": "03ca7d8",
+    "git_commit_date": "Sun Feb 4 20:27:09 2024 +0100",
     "go_os": "linux",
     "go_arch": "amd64",
+    "cpu_percent": 0.2503755633452876,
     "virtual_memory_info": {
       "total": 16757788672,
-      "available": 15731380224,
-      "used": 639987712,
-      "usedPercent": 3.8190463224383118,
-      "free": 14230511616,
-      "active": 509100032,
-      "inactive": 1461919744,
+      "available": 15704993792,
+      "used": 665821184,
+      "usedPercent": 3.9732043232678858,
+      "free": 14205423616,
+      "active": 502624256,
+      "inactive": 1470324736,
       "wired": 0,
       "laundry": 0,
-      "buffers": 175882240,
-      "cached": 1711407104,
+      "buffers": 175489024,
+      "cached": 1711054848,
       "writeBack": 0,
-      "dirty": 201760768,
+      "dirty": 113561600,
       "writeBackTmp": 0,
-      "shared": 23199744,
-      "slab": 416751616,
-      "sreclaimable": 342806528,
-      "sunreclaim": 73945088,
-      "pageTables": 5361664,
+      "shared": 23752704,
+      "slab": 417124352,
+      "sreclaimable": 343011328,
+      "sunreclaim": 74113024,
+      "pageTables": 5337088,
       "swapCached": 0,
       "commitLimit": 12673855488,
-      "committedAS": 2500026368,
+      "committedAS": 2507059200,
       "highTotal": 0,
       "highFree": 0,
       "lowTotal": 0,
       "lowFree": 0,
       "swapTotal": 4294963200,
       "swapFree": 4294963200,
-      "mapped": 311230464,
+      "mapped": 313757696,
       "vmallocTotal": 35184372087808,
-      "vmallocUsed": 38477824,
+      "vmallocUsed": 38510592,
       "vmallocChunk": 0,
       "hugePagesTotal": 0,
       "hugePagesFree": 0,
@@ -101,10 +104,10 @@
       }
     ],
     "host_info": {
-      "hostname": "fv-az654-220",
-      "uptime": 113,
-      "bootTime": 1707049145,
-      "procs": 148,
+      "hostname": "fv-az665-127",
+      "uptime": 225,
+      "bootTime": 1707074667,
+      "procs": 149,
       "os": "linux",
       "platform": "ubuntu",
       "platformFamily": "debian",
@@ -113,7 +116,7 @@
       "kernelArch": "x86_64",
       "virtualizationSystem": "kvm",
       "virtualizationRole": "host",
-      "hostId": "f3a12094-e43b-a945-abbb-a4c8334d8a9d"
+      "hostId": "b843b908-256d-e24e-adb5-94e21f6594bf"
     },
     "cpu_info": [
       {
@@ -126,7 +129,7 @@
         "coreId": "0",
         "cores": 1,
         "modelName": "AMD EPYC 7763 64-Core Processor",
-        "mhz": 3243.034,
+        "mhz": 2418.998,
         "cacheSize": 512,
         "flags": [
           "fpu",
@@ -243,7 +246,7 @@
         "coreId": "0",
         "cores": 1,
         "modelName": "AMD EPYC 7763 64-Core Processor",
-        "mhz": 3243.88,
+        "mhz": 2445.432,
         "cacheSize": 512,
         "flags": [
           "fpu",
@@ -360,7 +363,7 @@
         "coreId": "1",
         "cores": 1,
         "modelName": "AMD EPYC 7763 64-Core Processor",
-        "mhz": 3134.545,
+        "mhz": 2659.567,
         "cacheSize": 512,
         "flags": [
           "fpu",
@@ -477,7 +480,7 @@
         "coreId": "1",
         "cores": 1,
         "modelName": "AMD EPYC 7763 64-Core Processor",
-        "mhz": 3175.593,
+        "mhz": 2445.432,
         "cacheSize": 512,
         "flags": [
           "fpu",
@@ -588,99 +591,57 @@
     "disk_usage_info": [
       {
         "device_name": "/dev/sda1",
+        "mountpoint": "/",
         "disk_usage": {
-          "path": "/dev/sda1",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
-        }
-      },
-      {
-        "device_name": "/dev/loop0",
-        "disk_usage": {
-          "path": "/dev/loop0",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
-        }
-      },
-      {
-        "device_name": "/dev/loop1",
-        "disk_usage": {
-          "path": "/dev/loop1",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
-        }
-      },
-      {
-        "device_name": "/dev/loop2",
-        "disk_usage": {
-          "path": "/dev/loop2",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
+          "path": "/",
+          "fstype": "ext2/ext3",
+          "total": 77851254784,
+          "free": 21005037568,
+          "used": 56829440000,
+          "usedPercent": 73.01319643386958,
+          "inodesTotal": 9676800,
+          "inodesUsed": 1024360,
+          "inodesFree": 8652440,
+          "inodesUsedPercent": 10.58573082010582
         }
       },
       {
         "device_name": "/dev/sda15",
+        "mountpoint": "/boot/efi",
         "disk_usage": {
-          "path": "/dev/sda15",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
+          "path": "/boot/efi",
+          "fstype": "msdos",
+          "total": 109395456,
+          "free": 103061504,
+          "used": 6333952,
+          "usedPercent": 5.789958954053813,
+          "inodesTotal": 0,
+          "inodesUsed": 0,
+          "inodesFree": 0,
+          "inodesUsedPercent": 0
         }
       },
       {
         "device_name": "/dev/sdb1",
+        "mountpoint": "/mnt",
         "disk_usage": {
-          "path": "/dev/sdb1",
-          "fstype": "tmpfs",
-          "total": 8376516608,
-          "free": 8376516608,
-          "used": 0,
-          "usedPercent": 0,
-          "inodesTotal": 2045048,
-          "inodesUsed": 448,
-          "inodesFree": 2044600,
-          "inodesUsedPercent": 0.021906576275960273
+          "path": "/mnt",
+          "fstype": "ext2/ext3",
+          "total": 78673350656,
+          "free": 70335148032,
+          "used": 4295000064,
+          "usedPercent": 5.755046952975565,
+          "inodesTotal": 4915200,
+          "inodesUsed": 13,
+          "inodesFree": 4915187,
+          "inodesUsedPercent": 0.00026448567708333337
         }
       }
     ],
     "cpu_load_averge_info": {
-      "load1": 2.01,
-      "load5": 0.6,
-      "load15": 0.21
+      "load1": 2.53,
+      "load5": 0.73,
+      "load15": 0.25
     },
     "network_interfaces_info": [
       {
@@ -705,7 +666,7 @@
         "index": 2,
         "mtu": 1500,
         "name": "eth0",
-        "hardwareAddr": "00:0d:3a:62:d7:04",
+        "hardwareAddr": "00:0d:3a:52:d2:29",
         "flags": [
           "up",
           "broadcast",
@@ -713,10 +674,10 @@
         ],
         "addrs": [
           {
-            "addr": "10.1.0.195/16"
+            "addr": "10.1.0.134/16"
           },
           {
-            "addr": "fe80::20d:3aff:fe62:d704/64"
+            "addr": "fe80::20d:3aff:fe52:d229/64"
           }
         ]
       },
@@ -724,7 +685,7 @@
         "index": 3,
         "mtu": 1500,
         "name": "docker0",
-        "hardwareAddr": "02:42:c1:02:9c:a0",
+        "hardwareAddr": "02:42:4e:ab:cb:e6",
         "flags": [
           "up",
           "broadcast",
