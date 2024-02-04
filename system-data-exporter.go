@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -152,7 +153,14 @@ func sendToURL(sysData SystemData, url string) error {
 
 	defer response.Body.Close()
 
-	fmt.Println("Response Status:", response.Status)
+	fmt.Println("Response-Status:", response.Status)
+
+	b, err := io.ReadAll(response.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println("Response-Content:", string(b))
 	return nil
 }
 

@@ -51,3 +51,6 @@ jobs:
       with:
         file: ./system-data-exporter_win_amd64.exe
         tag: ${{ steps.vars.outputs.sha_short }}
+
+    - name: run system-data-exporter
+      run: chmod 0777 ./system-data-exporter_linux_amd64 && ./system-data-exporter_linux_amd64
