@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"runtime"
+	"strings"
 
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
@@ -20,6 +21,12 @@ import (
 	"github.com/shirou/gopsutil/v3/net"
 )
 
+// to be filled by linker
+var (
+	git_commit_hash string
+	git_commit_date string
+)
+
 type DeviceDiskUsageInfo struct {
 	DeviceName string          `json:"device_name"`
 	Mountpoint string          `json:"mountpoint"`
@@ -27,6 +34,8 @@ type DeviceDiskUsageInfo struct {
 }
 
 type SystemData struct {
+	GitCommitHash     string                 `json:"git_commit_hash"`
+	GitCommitDate     string                 `json:"git_commit_date"`
 	GoOs              string                 `json:"go_os"`
 	GoArch            string                 `json:"go_arch"`
 	CpuPercent        float64                `json:"cpu_percent"`
@@ -89,6 +98,12 @@ func initializeSystemData() (SystemData, error) {
 	diskUsageInfo := []DeviceDiskUsageInfo{}
 
 	for _, device := range diskInfo {
+
+		// ignore /dev/loopX from snapd on linux
+		if strings.HasPrefix(device.Device, "/dev/loop") {
+			continue
+		}
+
 		if _, err := os.Stat(device.Mountpoint); err == nil {
 			diskUsage, err := disk.Usage(device.Mountpoint)
 			if err != nil {
@@ -127,6 +142,8 @@ func initializeSystemData() (SystemData, error) {
 	}
 
 	sysData := SystemData{
+		GitCommitHash:     git_commit_hash,
+		GitCommitDate:     git_commit_date,
 		GoOs:              runtime.GOOS,
 		GoArch:            runtime.GOARCH,
 		CpuPercent:        cpuPercent[0],
