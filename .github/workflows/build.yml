@@ -30,13 +30,13 @@ jobs:
       run: echo "git_date=$(git log -1 --format=%cd)" >> $GITHUB_OUTPUT
 
     - name: Build linux-amd64
-      run: env GOOS=linux GOARCH=amd64 go build -ldflags="-s -X main.git_commit_hash='${{ steps.vars1.outputs.sha_short }}' -X main.git_commit_date='${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_linux_amd64
+      run: env GOOS=linux GOARCH=amd64 go build -ldflags="-s -X 'main.git_commit_hash=${{ steps.vars1.outputs.sha_short }}' -X 'main.git_commit_date=${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_linux_amd64
 
     - name: Build linux-arm64
-      run: env GOOS=linux GOARCH=arm64 go build -ldflags="-s -X main.git_commit_hash='${{ steps.vars1.outputs.sha_short }}' -X main.git_commit_date='${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_linux_arm64
+      run: env GOOS=linux GOARCH=arm64 go build -ldflags="-s -X 'main.git_commit_hash=${{ steps.vars1.outputs.sha_short }}' -X 'main.git_commit_date=${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_linux_arm64
 
     - name: Build win-amd64
-      run: env GOOS=windows GOARCH=amd64 go build -ldflags="-s -X main.git_commit_hash='${{ steps.vars1.outputs.sha_short }}' -X main.git_commit_date='${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_win_amd64.exe
+      run: env GOOS=windows GOARCH=amd64 go build -ldflags="-s -X 'main.git_commit_hash=${{ steps.vars1.outputs.sha_short }}' -X 'main.git_commit_date=${{ steps.vars2.outputs.git_date }}'" -o system-data-exporter_win_amd64.exe
 
     - name: release linux-amd64
       uses: svenstaro/upload-release-action@v2
